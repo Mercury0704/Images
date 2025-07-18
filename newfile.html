@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Secret Reveal with Sound</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
+    body {
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: 'Fredoka One', cursive, Arial, sans-serif;
+      flex-direction: column;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    input[type="checkbox"] {
+      display: none;
+    }
+
+    label {
+      cursor: pointer;
+      font-size: 2em;
+      color: #58a6ff;
+      user-select: none;
+      animation: pulse 2.5s infinite;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px #58a6ffaa;
+    }
+
+    label:hover {
+      color: #79c0ff;
+      text-shadow: 0 0 14px #79c0ffcc;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        filter: hue-rotate(0deg);
+      }
+      50% {
+        filter: hue-rotate(60deg);
+      }
+    }
+
+    .secret-text {
+      opacity: 0;
+      margin-top: 30px;
+      font-size: 2em;
+      color: #ff75b5;
+      display: none;
+      animation: sparkle 2s ease forwards;
+      animation-delay: 0.5s;
+    }
+
+    @keyframes sparkle {
+      0% { opacity: 0; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.1); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .secret-image {
+      opacity: 0;
+      max-width: 320px;
+      margin-top: 20px;
+      border-radius: 16px;
+      box-shadow: 0 0 30px #ff75b5bb;
+      display: none;
+      animation: bounceIn 0.8s ease forwards;
+      animation-delay: 0.5s;
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0.3); opacity: 0; }
+      50% { transform: scale(1.05); opacity: 1; }
+      70% { transform: scale(0.9); }
+      100% { transform: scale(1); }
+    }
+
+    .confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999;
+      display: none;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #ff75b5;
+      opacity: 0.8;
+      animation: fall 3s linear infinite;
+      border-radius: 2px;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    input[type="checkbox"]:checked ~ .secret-text,
+    input[type="checkbox"]:checked ~ .secret-image {
+      display: block;
+      opacity: 1;
+    }
+
+    input[type="checkbox"]:checked ~ .confetti {
+      display: block;
+    }
+
+    /* Hide the label when checkbox is checked */
+    input[type="checkbox"]:checked + label {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <input type="checkbox" id="reveal" />
+    <label for="reveal">click click clickkk</label>
+
+    <p class="secret-text">eh 1k oo ....idhokke ndh huhuhu✨🎉</p>
+
+    <img
+      class="secret-image"
+      src="https://raw.githubusercontent.com/Mercury0704/Images/main/ss.jfif"
+      alt="Secret Image"
+    />
+  </div>
+
+  <div class="confetti" aria-hidden="true"></div>
+
+  <!-- Audio -->
+  <audio id="revealSound" src="https://raw.githubusercontent.com/Mercury0704/Images/main/audio.mp3" preload="auto"></audio>
+
+  <script>
+    // Generate confetti
+    const confettiContainer = document.querySelector('.confetti');
+    for (let i = 0; i < 40; i++) {
+      const c = document.createElement('div');
+      c.classList.add('confetti-piece');
+      c.style.left = `${Math.random() * 100}vw`;
+      c.style.animationDelay = `${Math.random() * 3}s`;
+      c.style.background = `hsl(${Math.random() * 360}, 70%, 70%)`;
+      c.style.width = c.style.height = `${4 + Math.random() * 6}px`;
+      confettiContainer.appendChild(c);
+    }
+
+    // Play audio when revealed
+    const checkbox = document.getElementById('reveal');
+    const audio = document.getElementById('revealSound');
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) {
+        audio.currentTime = 0;
+        audio.play();
+      } else {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+    });
+  </script>
+</body>
+</html>
