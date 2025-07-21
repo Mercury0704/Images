@@ -146,6 +146,14 @@
       <button type="submit" class="w-full bg-[#ba68c8] text-white py-3 rounded hover:bg-[#ab47bc] transition font-semibold">Send Message</button>
     </form>
   </section>
+  <script>
+  const menuBtn = document.getElementById('menu-btn');
+  const menu = document.getElementById('menu');
+
+  menuBtn.addEventListener('click', () => {
+    menu.classList.toggle('hidden');
+  });
+</script>
 
 </body>
 </html>
